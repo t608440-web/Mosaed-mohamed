@@ -1,12 +1,21 @@
 {
-  "name":"مساعد محمد",
-  "short_name":"مساعد محمد",
-  "description":"مساعدك الشخصي العربي",
-  "start_url":"./index.html",
-  "display":"standalone",
-  "dir":"rtl",
-  "lang":"ar",
-  "theme_color":"#0b1220",
-  "background_color":"#07111f",
-  "icons":[{"src":"assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "name": "مساعد محمد",
+  "short_name": "مساعد محمد",
+  "description": "مساعدك الشخصي العربي",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "theme_color": "#0b1220",
+  "background_color": "#07111f",
+  "icons": [
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
