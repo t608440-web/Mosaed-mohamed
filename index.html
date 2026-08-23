@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="مساعد محمد - مساعدك الشخصي العربي">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg">
+  <title>مساعد محمد</title>
+  <style>
+    :root{--bg:#07111f;--panel:#0d1929;--panel2:#122238;--text:#f7f9fc;--muted:#9eacc0;--accent:#62d4b4;--accent2:#3aa98d;--line:#1d3047;--danger:#ff6b7a}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#173354 0,#07111f 42%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;min-height:100vh}
+    button,input,textarea{font:inherit}button{cursor:pointer}
+    .app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:86px}
+    header{padding:22px 18px 10px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#7be3c4,#238a72);display:grid;place-items:center;box-shadow:0 10px 28px #0005}.logo span{font-size:24px;font-weight:800;color:#07111f}
+    h1{font-size:20px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}.iconbtn{width:42px;height:42px;border:1px solid var(--line);background:#0d1929;color:var(--text);border-radius:13px}
+    main{padding:10px 16px}.hero{padding:18px 2px 14px}.hero h2{font-size:28px;margin:0 0 7px}.hero p{margin:0;color:var(--muted);line-height:1.7}
+    .status{display:inline-flex;align-items:center;gap:7px;color:#bcefe0;font-size:12px;margin-top:12px}.dot{width:8px;height:8px;background:var(--accent);border-radius:50%;box-shadow:0 0 14px var(--accent)}
+    .chat{min-height:300px}.bubble{max-width:88%;padding:13px 15px;border-radius:18px;line-height:1.7;margin:10px 0;white-space:pre-wrap}.assistant{background:var(--panel2);border:1px solid var(--line);margin-left:auto}.user{background:linear-gradient(145deg,#1f6c5b,#174d43);margin-right:auto}
+    .composer{position:fixed;bottom:65px;left:0;right:0;max-width:760px;margin:auto;padding:10px 14px;background:linear-gradient(180deg,transparent,#07111fee 30%)}.compose{display:flex;gap:8px;background:#0d1929;border:1px solid var(--line);border-radius:18px;padding:7px}.compose input{min-width:0;flex:1;background:transparent;border:0;outline:0;color:var(--text);padding:9px}.send,.mic{border:0;border-radius:13px;width:42px;height:42px}.send{background:var(--accent);color:#07111f;font-weight:800}.mic{background:#15263b;color:var(--text)}
+    nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:#091525ee;border-top:1px solid var(--line);backdrop-filter:blur(14px);display:flex;justify-content:center;z-index:5}.navin{width:min(760px,100%);display:flex;justify-content:space-around}.navbtn{flex:1;border:0;background:none;color:var(--muted);font-size:11px}.navbtn.active{color:var(--accent)}.navbtn b{display:block;font-size:20px;margin-bottom:2px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.card{border:1px solid var(--line);background:linear-gradient(145deg,#102139,#0b1728);border-radius:18px;padding:15px;text-align:right;color:var(--text);min-height:112px}.card .ico{font-size:25px}.card strong{display:block;margin-top:8px}.card small{color:var(--muted);display:block;margin-top:4px;line-height:1.5}
+    .section{display:none}.section.active{display:block}.panel{background:#0d1929;border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}.muted{color:var(--muted);font-size:13px}
+    .primary{border:0;background:var(--accent);color:#07111f;padding:11px 16px;border-radius:12px;font-weight:800}.ghost{border:1px solid var(--line);background:#122238;color:var(--text);padding:10px 13px;border-radius:12px}
+    .input{width:100%;background:#081424;border:1px solid var(--line);border-radius:12px;color:var(--text);padding:11px;outline:none}.empty{padding:30px 10px;text-align:center;color:var(--muted)}
+    .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#122238;border:1px solid var(--line);padding:10px 15px;border-radius:12px;display:none;z-index:20}
+    @media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}.hero h2{font-size:34px}}
+  </style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div class="app">
+<header><div class="brand"><div class="logo"><span>م</span></div><div><h1>مساعد محمد</h1><div class="sub">مساعدك الشخصي</div></div></div><button class="iconbtn" onclick="show('settings')">⚙️</button></header>
+<main>
+<section id="home" class="section active">
+  <div class="hero"><h2>هلا يا محمد 👋</h2><p>أنا مساعدك الشخصي. اكتب لي طلبك، وسنبدأ من هنا.</p><div class="status"><i class="dot"></i> الوضع المحلي يعمل بدون اتصال</div></div>
+  <div id="chat" class="chat"></div>
+  <div class="grid">
+    <button class="card" onclick="show('files')"><span class="ico">📁</span><strong>ملفاتي</strong><small>أضف ملفاتك وابحث فيها محلياً</small></button>
+    <button class="card" onclick="show('reminders')"><span class="ico">⏰</span><strong>التذكيرات</strong><small>نظم مهامك اليومية</small></button>
+    <button class="card" onclick="webSearch()"><span class="ico">🌐</span><strong>بحث ويب</strong><small>افتح بحثاً خارجياً عند الحاجة</small></button>
+    <button class="card" onclick="show('integrations')"><span class="ico">🔗</span><strong>التكاملات</strong><small>البريد والرسائل والمكالمات</small></button>
+  </div>
+</section>
+
+<section id="files" class="section"><h2>📁 ملفاتي</h2><p class="muted">الملفات تبقى في جهازك في هذه النسخة.</p>
+<div class="panel"><input id="fileInput" class="input" type="file" multiple onchange="addFiles(this.files)"></div><div id="fileList" class="panel"></div></section>
+
+<section id="reminders" class="section"><h2>⏰ التذكيرات</h2>
+<div class="panel"><div style="display:flex;gap:8px"><input id="remInput" class="input" placeholder="مثلاً: اتصل بمحمد"><button class="primary" onclick="addReminder()">إضافة</button></div></div><div id="remList" class="panel"></div></section>
+
+<section id="integrations" class="section"><h2>🔗 التكاملات</h2><p class="muted">هذه الوظائف لا تعمل تلقائياً من المتصفح. يمكنك ربطها لاحقاً بصلاحيات Android أو خدمات خارجية.</p>
+<div class="panel" id="integrationList"></div></section>
+
+<section id="settings" class="section"><h2>⚙️ الإعدادات والخصوصية</h2>
+<div class="panel">
+<div class="row"><div><strong>البيانات المحلية</strong><div class="muted">المحادثات والتذكيرات تحفظ في هذا الجهاز</div></div><button class="ghost" onclick="clearData()">مسح</button></div>
+<div class="row"><div><strong>مزود الذكاء الاصطناعي</strong><div class="muted">غير متصل — جاهز للربط لاحقاً</div></div><span>🔒</span></div>
+<div class="row"><div><strong>التثبيت كتطبيق</strong><div class="muted">إذا كان المتصفح يدعم PWA سيظهر خيار التثبيت</div></div><button class="primary" onclick="installPWA()">تثبيت</button></div>
+</div></section>
+</main>
+<div class="composer"><div class="compose"><button class="mic" onclick="voice()">🎙️</button><input id="msg" placeholder="اكتب رسالتك..." onkeydown="if(event.key==='Enter')send()"><button class="send" onclick="send()">➤</button></div></div>
+<nav><div class="navin"><button class="navbtn active" onclick="show('home')"><b>⌂</b>الرئيسية</button><button class="navbtn" onclick="show('files')"><b>▣</b>الملفات</button><button class="navbtn" onclick="show('reminders')"><b>✓</b>التذكيرات</button><button class="navbtn" onclick="show('settings')"><b>⚙</b>الإعدادات</button></div></nav>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let chats=JSON.parse(localStorage.getItem('mosaed_chats')||'[]');
+let reminders=JSON.parse(localStorage.getItem('mosaed_reminders')||'[]');
+let files=JSON.parse(localStorage.getItem('mosaed_files')||'[]');
+function save(){localStorage.setItem('mosaed_chats',JSON.stringify(chats));localStorage.setItem('mosaed_reminders',JSON.stringify(reminders));localStorage.setItem('mosaed_files',JSON.stringify(files))}
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',1800)}
+function show(id){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));if(id==='home')document.querySelector('.navbtn').classList.add('active');render();scrollTo(0,0)}
+function render(){renderChat();renderFiles();renderReminders();renderIntegrations()}
+function renderChat(){const c=$('chat');if(!chats.length){c.innerHTML='<div class="bubble assistant">أهلاً محمد 🌿<br>أنا النسخة المحلية من مساعدك. جرّب أن تكتب: «ذكّرني...» أو «ما الذي تستطيع فعله؟»</div>';return}c.innerHTML=chats.map(x=>`<div class="bubble ${x.role==='user'?'user':'assistant'}">${escape(x.text)}</div>`).join('');c.scrollTop=c.scrollHeight}
+function escape(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function send(){const v=$('msg').value.trim();if(!v)return;chats.push({role:'user',text:v});$('msg').value='';let r=reply(v);chats.push({role:'assistant',text:r});save();renderChat()}
+function reply(v){if(/ذكّر|ذكرني|تذكير/.test(v)){let t=v.replace(/.*?(ذكّرني|ذكرني|تذكير)\s*/,'').trim()||'مهمة جديدة';reminders.push({id:Date.now(),text:t,done:false});save();renderReminders();return `تم يا محمد، أضفت التذكير: ${t}`};if(/ماذا تستطيع|شنو بتقدر|شنو تستطيع|تقدر شنو/.test(v))return 'أقدر أساعدك في تنظيم التذكيرات، إدارة ملفاتك محلياً، فتح بحث ويب، وتجهيز التطبيق للتكامل مع خدمات الذكاء الاصطناعي لاحقاً.';if(/مرحبا|السلام|هلا|هاي/.test(v))return 'هلا والله يا محمد 🌿 كيف أساعدك اليوم؟';return 'وصلت رسالتك 👍 هذه نسخة محلية تجريبية. عند ربط مزود الذكاء الاصطناعي سأتمكن من إعطائك إجابات ذكية كاملة.'}
+function addReminder(){const v=$('remInput').value.trim();if(!v)return;reminders.push({id:Date.now(),text:v,done:false});$('remInput').value='';save();renderReminders();toast('تمت إضافة التذكير')}
+function toggleRem(id){const r=reminders.find(x=>x.id===id);if(r)r.done=!r.done;save();renderReminders()}
+function delRem(id){reminders=reminders.filter(x=>x.id!==id);save();renderReminders()}
+function renderReminders(){const el=$('remList');if(!el)return;if(!reminders.length){el.innerHTML='<div class="empty">لا توجد تذكيرات بعد.</div>';return}el.innerHTML=reminders.map(r=>`<div class="row"><div><strong style="${r.done?'text-decoration:line-through;opacity:.5':''}">${escape(r.text)}</strong></div><div><button class="ghost" onclick="toggleRem(${r.id})">${r.done?'↩':'✓'}</button> <button class="ghost" onclick="delRem(${r.id})">حذف</button></div></div>`).join('')}
+function addFiles(list){[...list].forEach(f=>files.push({id:Date.now()+Math.random(),name:f.name,size:f.size,type:f.type}));save();renderFiles();toast('تمت إضافة الملفات')}
+function renderFiles(){const el=$('fileList');if(!el)return;if(!files.length){el.innerHTML='<div class="empty">لم تتم إضافة ملفات.</div>';return}el.innerHTML=files.map(f=>`<div class="row"><div>📄 <strong>${escape(f.name)}</strong><div class="muted">${Math.ceil(f.size/1024)} KB</div></div><button class="ghost" onclick="files=files.filter(x=>x.id!==${f.id});save();renderFiles()">حذف</button></div>`).join('')}
+function renderIntegrations(){const el=$('integrationList');if(!el)return;el.innerHTML=['📧 البريد الإلكتروني','💬 الرسائل','📞 المكالمات','🔔 الإشعارات'].map(x=>`<div class="row"><div><strong>${x}</strong><div class="muted">غير متصل — يحتاج تكاملاً وصلاحية فعلية</div></div><span>○</span></div>`).join('')}
+function webSearch(){window.open('https://www.google.com/search?q='+encodeURIComponent(''),'_blank')}
+function voice(){if(!('webkitSpeechRecognition'in window||'SpeechRecognition'in window)){toast('التعرف الصوتي غير مدعوم في هذا المتصفح');return}const R=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new R();r.lang='ar-SA';r.onresult=e=>{$('msg').value=e.results[0][0].transcript};r.start();toast('تحدث الآن...')}
+function clearData(){if(confirm('مسح كل المحادثات والتذكيرات والملفات المحلية؟')){localStorage.clear();chats=[];reminders=[];files=[];render();toast('تم مسح البيانات')}}
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});async function installPWA(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null}else toast('التطبيق قد يكون مثبتاً أو المتصفح لا يدعم التثبيت الآن')}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+render();
+</script>
+</body>
+</html>
